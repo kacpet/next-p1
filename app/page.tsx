@@ -1,8 +1,19 @@
+import { after } from "next/server";
+
 import EventCard from "./components/EventCard";
 import ExploreBtn from "./components/ExploreBtn";
 import { events } from "@/lib/constants";
+import {
+  flushPostHogLogs,
+  logEventDirectoryRendered,
+} from "@/lib/posthog-logs";
+
+export const dynamic = "force-dynamic";
 
 const page = () => {
+  logEventDirectoryRendered(events.length);
+  after(flushPostHogLogs);
+
   return (
     <section>
       <h1 className="text-center">The Hub for Events</h1>
