@@ -1,6 +1,6 @@
+import { cacheLife } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { title } from "process";
 
 import BookEvent from "@/app/components/BookEvent";
 import EventCard from "@/app/components/EventCard";
@@ -65,7 +65,8 @@ const EventDetailsPage = async ({
       organizer,
     },
   } = await request.json();
-
+  'use cache'
+  cacheLife("hours");
 
   if (!description) return notFound();
 
@@ -136,7 +137,7 @@ const EventDetailsPage = async ({
               ):(
                 <p className="text-sm">Be the first to book your spot!</p>
               )}
-              <BookEvent/>
+              <BookEvent eventId={event._id} slug={event.slug} />
           </div>
         </aside>
       </div>
